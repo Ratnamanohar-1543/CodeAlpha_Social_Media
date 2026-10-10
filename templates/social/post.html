@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block content %}<div class="col">{% for p in posts %}{% include "social/_post.html" %}
+<div class="side">{% for c in p.comments.all %}<p><b>{{ c.author.username }}</b> {{ c.text }}</p>{% empty %}<p class="muted">No comments yet.</p>{% endfor %}</div>{% endfor %}</div>{% endblock %}

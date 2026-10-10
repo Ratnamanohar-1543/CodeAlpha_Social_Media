@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block content %}<div class="box"><div style="font-family:cursive;font-size:2.2rem;text-align:center">Snapgram</div>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn" style="width:100%">Sign up</button></form>
+<p style="text-align:center" class="muted">Have an account? <a href="{% url 'login' %}"><b>Log in</b></a></p></div>{% endblock %}

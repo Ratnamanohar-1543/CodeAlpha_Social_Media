@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}<div class="pf"><img class="big" src="{{ u.profile.pic }}" alt=""><div>
+<h2 style="font-weight:300;margin:0 0 10px">{{ u.username }}
+{% if u == user %}<a class="btn g" href="{% url 'edit' %}">Edit profile</a>{% else %}<form method="post" action="{% url 'follow' u.username %}" style="display:inline">{% csrf_token %}<button class="btn {% if is_following %}g{% endif %}">{% if is_following %}Following{% else %}Follow{% endif %}</button></form>{% endif %}</h2>
+<p><b>{{ posts|length }}</b> posts &nbsp; <b>{{ u.followers.count }}</b> followers &nbsp; <b>{{ u.following.count }}</b> following</p><p>{{ u.profile.bio }}</p></div></div><hr style="border:0;border-top:1px solid #dbdbdb">
+<div class="grid3">{% for p in posts %}<a href="{% url 'post' p.pk %}"><img src="{{ p.src }}" alt="" loading="lazy"></a>{% empty %}<p class="muted">No posts yet.</p>{% endfor %}</div>{% endblock %}

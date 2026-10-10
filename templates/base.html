@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Snapgram</title><meta name="csrf" content="{{ csrf_token }}">
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0;background:#fafafa;color:#262626}a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:9;background:#fff;border-bottom:1px solid #dbdbdb;padding:10px 20px;display:flex;align-items:center;gap:18px}
+.logo{font-family:'Brush Script MT','Segoe Script',cursive;font-size:1.9rem;margin-right:auto}nav a{font-size:1.4rem}
+main{max-width:935px;margin:24px auto;padding:0 12px}.col{max-width:470px;margin:0 auto}
+.post{background:#fff;border:1px solid #dbdbdb;border-radius:8px;margin-bottom:22px}.ph{display:flex;align-items:center;gap:10px;padding:10px 14px;font-weight:600}
+.av{width:34px;height:34px;border-radius:50%;object-fit:cover}.post>img{width:100%;display:block;aspect-ratio:1;object-fit:cover;background:#eee}
+.act{padding:8px 14px;font-size:1.5rem}.act button{background:none;border:0;font-size:1.5rem;cursor:pointer;padding:0 8px 0 0}.pb{padding:0 14px 12px;font-size:.92rem}
+.muted{color:#8e8e8e}.ci{display:flex;border-top:1px solid #efefef}.ci input{flex:1;border:0;padding:12px 14px;font:inherit;outline:0}.ci button{border:0;background:none;color:#0095f6;font-weight:600;cursor:pointer;padding:0 14px}
+.stories{display:flex;gap:16px;overflow-x:auto;padding:14px;background:#fff;border:1px solid #dbdbdb;border-radius:8px;margin-bottom:22px}
+.ring{padding:3px;border-radius:50%;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);display:inline-block}.ring img{width:58px;height:58px;border-radius:50%;border:3px solid #fff;display:block;object-fit:cover}
+.story{text-align:center;font-size:.75rem}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.grid3 img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.pf{display:flex;gap:40px;align-items:center;margin-bottom:30px;flex-wrap:wrap}.pf .big{width:130px;height:130px;border-radius:50%;object-fit:cover}
+.btn{background:#0095f6;color:#fff;border:0;border-radius:8px;padding:7px 18px;font:inherit;font-weight:600;cursor:pointer;display:inline-block}.btn.g{background:#efefef;color:#262626}
+.box{background:#fff;border:1px solid #dbdbdb;border-radius:8px;padding:28px;max-width:380px;margin:40px auto}.box input{width:100%;padding:9px;margin:4px 0;border:1px solid #dbdbdb;border-radius:4px;background:#fafafa;font:inherit}
+.side{background:#fff;border:1px solid #dbdbdb;border-radius:8px;padding:14px;margin-bottom:14px}.row{display:flex;align-items:center;gap:10px;margin:8px 0}.row span{flex:1}
+</style></head><body>
+<nav><a class="logo" href="{% url 'feed' %}">Snapgram</a>{% if user.is_authenticated %}
+<a href="{% url 'feed' %}" title="Home">🏠</a><a href="{% url 'explore' %}" title="Explore">🧭</a><a href="{% url 'new' %}" title="New post">➕</a>
+<a href="{% url 'profile' user.username %}"><img class="av" style="width:28px;height:28px" src="{{ user.profile.pic }}" alt=""></a>
+<form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn g">Log out</button></form>{% endif %}</nav>
+<main>{% block content %}{% endblock %}</main>
+<script>
+document.addEventListener("click",async e=>{const b=e.target.closest(".likebtn");if(!b)return;
+const r=await fetch(b.dataset.url,{method:"POST",headers:{"X-CSRFToken":document.querySelector("meta[name=csrf]").content}});
+const d=await r.json();b.textContent=d.liked?"❤️":"🤍";document.getElementById("lc-"+b.dataset.id).textContent=d.count;});
+</script></body></html>

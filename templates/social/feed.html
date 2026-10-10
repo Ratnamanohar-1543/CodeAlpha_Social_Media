@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}<div style="display:flex;gap:30px;justify-content:center;align-items:flex-start"><div class="col" style="margin:0;flex:1">
+<div class="stories">{% for s in stories %}<a class="story" href="{% url 'profile' s.username %}"><span class="ring"><img src="{{ s.profile.pic }}" alt=""></span><br>{{ s.username|truncatechars:9 }}</a>{% endfor %}</div>
+{% for p in posts %}{% include "social/_post.html" %}{% empty %}<div class="side">Your feed is empty. Follow people from <a href="{% url 'explore' %}"><b>Explore</b></a> or <a href="{% url 'new' %}"><b>share your first photo</b></a>!</div>{% endfor %}</div>
+<aside style="width:290px" class="side"><b class="muted">Suggested for you</b>{% for s in suggest %}<div class="row"><img class="av" src="{{ s.profile.pic }}" alt="">
+<span><a href="{% url 'profile' s.username %}"><b>{{ s.username }}</b></a></span><form method="post" action="{% url 'follow' s.username %}">{% csrf_token %}<button class="btn" style="padding:4px 12px">Follow</button></form></div>{% endfor %}</aside></div>{% endblock %}

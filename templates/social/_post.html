@@ -1,0 +1,10 @@
+<article class="post"><div class="ph"><a href="{% url 'profile' p.author.username %}"><img class="av" src="{{ p.author.profile.pic }}" alt=""></a>
+<a href="{% url 'profile' p.author.username %}">{{ p.author.username }}</a></div>
+<a href="{% url 'post' p.pk %}"><img src="{{ p.src }}" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;display:block"></a>
+<div class="act"><button class="likebtn" data-id="{{ p.pk }}" data-url="{% url 'like' p.pk %}">{% if p.id in liked %}❤️{% else %}🤍{% endif %}</button><a href="{% url 'post' p.pk %}">💬</a></div>
+<div class="pb"><b><span id="lc-{{ p.pk }}">{{ p.likes.all|length }}</span> likes</b>
+{% if p.caption %}<p><b>{{ p.author.username }}</b> {{ p.caption }}</p>{% endif %}
+{% for c in p.comments.all|slice:"-2:" %}<div><b>{{ c.author.username }}</b> {{ c.text }}</div>{% endfor %}
+{% if p.comments.all|length > 2 %}<a class="muted" href="{% url 'post' p.pk %}">View all {{ p.comments.all|length }} comments</a>{% endif %}
+<div class="muted" style="font-size:.75rem;margin-top:6px">{{ p.created|timesince }} ago</div></div>
+<form class="ci" method="post" action="{% url 'comment' p.pk %}">{% csrf_token %}<input name="text" placeholder="Add a comment..." autocomplete="off"><button>Post</button></form></article>

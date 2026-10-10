@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block content %}<div class="box"><h2>New post</h2><form method="post" enctype="multipart/form-data">{% csrf_token %}
+<input type="file" name="image" accept="image/*" required><input name="caption" placeholder="Write a caption..."><br><br><button class="btn">Share</button></form></div>{% endblock %}
